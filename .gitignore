@@ -1,5 +1,9 @@
 *.tar
+*.tar.gz
+pkg.Rcheck/*
 *.zip
 *~
 *#
 .Rhistory
+img/*.xml
+img/*.ps

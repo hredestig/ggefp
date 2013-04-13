@@ -11,12 +11,14 @@ map_values <- function(x, df, exhibit) {
     return("#FFFFFF")
 }
 
+#' @importClassesFrom grImport PictureFill
 setMethod("mapcols", "PictureFill", function(object, df, exhibit, ...) {
   pathGrob(object@x, object@y,
            default.units="native",
            gp=gpar(col=NA, fill=map_values(object@rgb, df, exhibit)), ...)
 })
 
+#' @importClassesFrom grImport PictureStroke
 setMethod("mapcols", "PictureStroke", function(object, df, exhibit, ...) {
   polylineGrob(object@x, object@y,
                default.units="native",

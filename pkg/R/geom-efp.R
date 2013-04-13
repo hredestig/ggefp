@@ -7,32 +7,41 @@
 #' @param position not needed?
 #' @param ... other params
 #' @return a geom
+#' @export
+#' @import proto
+#' @import grid
+#' @importFrom grImport pictureGrob
 #' @author Henning Redestig
-geom_efp <- function(mapping=NULL, data=NULL, collection=NULL, stat="identity",
+geom_efp <- function(collection, mapping=NULL, data=NULL,
+                     stat="identity",
                      position="identity", ...) { 
-  GeomEfp$new(mapping=mapping, data=data, collection=collection, stat=stat,
-              position=position, ...)
+  GeomEfp$new(mapping=mapping, data=data,
+              collection=collection,
+              stat=stat, position=position, ...)
 }
 
 GeomEfp <- proto(ggplot2:::Geom, {
   objname <- "polygon"
-
   draw_groups <- function(., ...) .$draw(...)
 
-  draw <- function(., data, scales, coordinates, ...) {
+  draw <- function(., data, scales, coordinates,
+                   collection, ...) { 
+    
+    pic_grobs <- lapply(collection, function(e) {
+      fp <-
+        file.path(system.file('exhibits', paste0(e$exhibit, '.rda'),
+                              package='ggefp'))
+      e$exhibit <- get(load(fp))
+      e$df <- data
+      e$picture <- e$exhibit$img
+      e$FUN <- mapcols
+      do.call(grImport::pictureGrob, e)
+    })
+    
     ggname(.$my_name(),
-           gTree(children=gList(
-                   pictureGrob(small_plant$img, .5, .5,
-                               FUN=mapcols, df=data)
-                   )))
+           gTree(children=do.call('gList', pic_grobs)))
   }
 
-  exhibits <- function(.) {
-    lapply(.$collection$exhibits, function(n) {
-      o <- load(system.file(file.path('inst', 'exhibits', paste0(n, '.rda'))))
-      get(o)
-    })
-  }
 
   default_stat <- function(.) StatIdentity
   default_aes <- function(.) aes(x=.5, y=.5)
@@ -41,7 +50,6 @@ GeomEfp <- proto(ggplot2:::Geom, {
 
   draw_legend <- function(., data, ...)  {
     data <- aesdefaults(data, .$default_aes(), list(...))
-  
     with(data, grobTree(
       rectGrob(gp=gpar(col=colour, fill=alpha(fill, alpha),
                  lty=linetype))
