@@ -1,0 +1,23 @@
+Package: ggefp
+Type: Package
+Title: An way to plot tissue maps using ggplot2
+Version: 0.0.1
+Author: Henning Redestig <henning.red@gmail.com>
+Maintainer: Henning Redestig <henning.red@gmail.com>
+Description: Defines a ggplot2 geom that maps values to tissues in provided
+    plant line drawings. Arabidopsis line drawing adapted from Winter et al.
+    (2007) PLoS ONE 2(8): e718. doi:10.1371/journal.pone.0000718
+Depends:
+    ggplot2
+Imports:
+    proto,
+    grid,
+    grImport
+License: GPL-3
+LazyData: true
+Collate:
+    'AllGenerics.R'
+    'exhibit.R'
+    'geom-efp.R'
+    'themes.R'
+    'utils.R'

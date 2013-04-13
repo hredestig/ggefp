@@ -1,0 +1,8 @@
+export(geom_efp)
+export(theme_efp)
+exportMethods(mapcols)
+import(grid)
+import(proto)
+importClassesFrom(grImport,PictureFill)
+importClassesFrom(grImport,PictureStroke)
+importFrom(grImport,pictureGrob)
