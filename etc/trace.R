@@ -12,14 +12,14 @@ lapply(list.files('../img', pattern='\\.svg$', full.names=TRUE),
          PostScriptTrace(ps, xml)
        })
 
-ara_seedling <-
+ath_seedling <-
   exhibit$proto(img=readPicture('../img/ath-seedling.xml'),
                 desc='Arabidopsis thaliana seedling',
                 key=data.frame(
                   tissue=c('cotelydons','hypocotyl','root'),
                   id=c('#800000', '#FF0000', '#808000'),
                   stringsAsFactors=FALSE))
-save(ara_seedling, file='../pkg/inst/exhibits/ath_seedling.rda')
+save(ath_seedling, file='../pkg/inst/exhibits/ath_seedling.rda')
                              
 ath_leaf6 <-
   exhibit$proto(img=readPicture('../img/ath-leaf6.xml'),

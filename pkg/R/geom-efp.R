@@ -44,7 +44,7 @@ NULL
 #' ggplot(values, aes(tissue=tissue, fill=value)) +
 #'   geom_efp(collection) +
 #'   facet_wrap(~treatment) + expand_limits(collection) +
-#'   xlim(0,1) + ylim(0,1)
+#'   xlim(0,1) + ylim(0,1) + theme_efp()
 geom_efp <- function(collection, 
                      mapping=NULL, data=NULL,
                      stat="identity",
