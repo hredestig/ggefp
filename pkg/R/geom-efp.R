@@ -12,48 +12,48 @@
 #' @import grid
 #' @importFrom grImport pictureGrob
 #' @author Henning Redestig
-geom_efp <- function(collection, mapping=NULL, data=NULL,
+geom_efp <- function(mapping=NULL, data=NULL,
+                     collection, 
                      stat="identity",
                      position="identity", ...) { 
-  GeomEfp$new(mapping=mapping, data=data,
-              collection=collection,
-              stat=stat, position=position, ...)
+
+  stopifnot(is.data.frame(collection))
+  if(is.null(collection$width)) collection$width  <- 1
+  if(is.null(collection$height)) collection$height  <- 1
+  if(is.null(collection$exhibit))
+    collection$exhibit  <- 'ath_seedling'
+  stopifnot(all(c("x", "y", "exhibit") %in% names(collection)))
+  GeomEfp$new(geom_params=list(collection=collection, ...),
+             mapping=mapping,  data=data, stat=stat, ...)
 }
 
-GeomEfp <- proto(ggplot2:::Geom, {
-  objname <- "polygon"
-  draw_groups <- function(., ...) .$draw(...)
+GeomEfp <- proto(ggplot2:::GeomPolygon, {
+  objname <- "efp"
 
-  draw <- function(., data, scales, coordinates,
-                   collection, ...) { 
-    
-    pic_grobs <- lapply(collection, function(e) {
-      fp <-
-        file.path(system.file('exhibits', paste0(e$exhibit, '.rda'),
-                              package='ggefp'))
-      e$exhibit <- get(load(fp))
-      e$df <- data
-      e$picture <- e$exhibit$img
-      e$FUN <- mapcols
-      do.call(grImport::pictureGrob, e)
-    })
-    
-    ggname(.$my_name(),
-           gTree(children=do.call('gList', pic_grobs)))
+  draw_groups <- function(., data, scales, coordinates, collection) {
+    coords <- coord_munch(coordinates, collection, scales)
+    coords$group <- coords$group %||% coords$id
+    efp_grob(collection, data)
   }
+  required_aes <- c("tissue", "fill")
 
-
-  default_stat <- function(.) StatIdentity
-  default_aes <- function(.) aes(x=.5, y=.5)
-  required_aes <- c("fill", "tissue")
-  guide_geom <- function(.) "polygon"
-
-  draw_legend <- function(., data, ...)  {
-    data <- aesdefaults(data, .$default_aes(), list(...))
-    with(data, grobTree(
-      rectGrob(gp=gpar(col=colour, fill=alpha(fill, alpha),
-                 lty=linetype))
-    ))
-  }
 })
 
+#' @export
+efp_grob_single <- function(cl, data) {
+  exhibit_file <-
+    file.path(system.file('exhibits',
+                          paste0(cl$exhibit, '.rda'),
+                          package='ggefp'))
+  stopifnot(nrow(cl) == 1)
+  exhibit <- get_exhibits(cl$exhibit)
+  grImport::pictureGrob(exhibit$img, cl$x, cl$y,
+                        cl$width, cl$height, FUN=mapcols,
+                        df=data, exhibit=exhibit)
+}
+
+#' @export
+efp_grob <- function(collection, data) {
+  grob_list <- dlply(collection, 'exhibit', efp_grob_single, data)
+  do.call('gList', grob_list)
+}

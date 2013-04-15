@@ -2,7 +2,7 @@
 \alias{geom_efp}
 \title{Tissue map, line drawing with filled regions}
 \usage{
-  geom_efp(collection, mapping = NULL, data = NULL,
+  geom_efp(mapping = NULL, data = NULL, collection,
     stat = "identity", position = "identity", ...)
 }
 \arguments{

@@ -1,4 +1,7 @@
+export(efp_grob)
+export(efp_grob_single)
 export(geom_efp)
+export(get_exhibits)
 export(theme_efp)
 exportMethods(mapcols)
 import(grid)
