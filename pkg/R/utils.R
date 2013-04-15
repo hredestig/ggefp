@@ -1,7 +1,13 @@
-get_exhibit <- function(name) 
-  get(load(file.path(system.file('exhibits',
-                                 paste0(name, '.rda'),
-                                 package='ggefp'))))
+get_exhibit <- function(name) {
+  pkg_path <- system.file('exhibits', paste0(name, '.rda'), package='ggefp')
+  if(!file.exists(name) & file.exists(pkg_path))
+    name <- pkg_path
+  if(!file.exists(name) & !file.exists(pkg_path))
+    stop('unknown exhibit ', name)
+  res <- get(load(file.path(name)))
+  if(is.null(res$key)) stop(name, ' does not look like a ggefp exhibit')
+  res
+}
 
 #' List available exhibits
 #'
