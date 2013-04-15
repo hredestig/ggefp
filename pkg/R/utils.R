@@ -1,4 +1,6 @@
 get_exhibit <- function(name) {
+  if(inherits(name, 'proto'))
+    return(name)
   name <- as.character(name)
   pkg_path <- system.file('exhibits', paste0(name, '.rda'), package='ggefp')
   if(!file.exists(name) & file.exists(pkg_path))
