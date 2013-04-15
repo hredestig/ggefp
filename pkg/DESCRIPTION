@@ -8,11 +8,13 @@ Description: Defines a ggplot2 geom that maps values to tissues in provided
     plant line drawings. Arabidopsis line drawing adapted from Winter et al.
     (2007) PLoS ONE 2(8): e718. doi:10.1371/journal.pone.0000718
 Depends:
+    methods,
     ggplot2
 Imports:
     proto,
     grid,
-    grImport
+    grImport,
+    plyr
 License: GPL-3
 LazyData: true
 Collate:

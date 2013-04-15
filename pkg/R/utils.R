@@ -1,16 +1,27 @@
+get_exhibit <- function(name) 
+  get(load(file.path(system.file('exhibits',
+                                 paste0(name, '.rda'),
+                                 package='ggefp'))))
+
+#' List available exhibits
+#'
+#' An exhibit here is a line drawing with regions annotated as being
+#' speciific tissues that can be used to visualize data in a
+#' contextual map. 
+#' @return a data frame describing the exhibits provided in this
+#' package
+#' @examples
+#' exhibits()
 #' @export
-get_exhibits <- function(names) {
-  if(missing(names)) {
-    names <- list.files(system.file('exhibits', package='ggefp'),
-                        pattern='\\.rda$')
-    names <- gsub('.rda$', '', names)
-  }
-  res <- lapply(names, function(n)
-                 get(load(file.path(system.file('exhibits',
-                                                paste0(n, '.rda'),
-                                                package='ggefp')))))
-  if(length(res) == 1) res <- res[[1]]
-  res
+#' @author Henning Redestig
+exhibits <- function() {
+  names <- list.files(system.file('exhibits', package='ggefp'),
+                      pattern='\\.rda$')
+  names <- gsub('.rda$', '', names)
+  ldply(names, function(n) {
+    ex <- get_exhibit(n)
+    data.frame(exhibit=n, tissue=ex$key$tissue)
+  })
 }
 
 map_values <- function(rgb, df, exhibit) {
