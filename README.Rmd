@@ -11,7 +11,7 @@ gene expression values in various tissues in plants and other species.
 To install or update, run:
    
     library(devtools)
-    install_dev("ggefp", subdir="pkg")
+    install_github("ggefp", subdir="pkg")
 
 Usage
 -----
