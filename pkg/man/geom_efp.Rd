@@ -38,7 +38,7 @@
 values <- data.frame(tissue=c('cotelydons', 'root', 'hypocotyl'),
                      value=c(1,1000,200))
 
-collection <- data.frame(exhibit=c('ath_seedling'), x=.5, y=.5)
+collection <- data.frame(exhibit='ath_seedling', x=.5, y=.5)
 ggplot(values, aes(tissue=tissue, fill=value)) +
   geom_efp(collection) +
   expand_limits(collection) + xlim(0,1) + ylim(0,1)
