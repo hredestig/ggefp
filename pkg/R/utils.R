@@ -2,7 +2,11 @@ get_exhibit <- function(name) {
   if(inherits(name, 'proto'))
     return(name)
   name <- as.character(name)
-  pkg_path <- system.file('exhibits', paste0(name, '.rda'), package='ggefp')
+  if(exists(name) && inherits(get(name), 'proto'))
+    return(get(name))
+  name <- as.character(name)
+  pkg_path <- system.file('exhibits', paste(name, '.rda', sep=''),
+                          package='ggefp')
   if(!file.exists(name) & file.exists(pkg_path))
     name <- pkg_path
   if(!file.exists(name) & !file.exists(pkg_path))
@@ -27,10 +31,17 @@ exhibits <- function() {
   names <- list.files(system.file('exhibits', package='ggefp'),
                       pattern='\\.rda$')
   names <- gsub('.rda$', '', names)
-  ldply(names, function(n) {
+  from_package <- ldply(names, function(n) {
     ex <- get_exhibit(n)
-    data.frame(exhibit=n, tissue=ex$key$tissue)
+    data.frame(exhibit=n, tissue=ex$key$tissue, from=.pkg)
   })
+  names <- Filter(function(x) inherits(x, 'proto') &&
+                  x$what == 'ggefp-exhibit', ls())
+  from_global <- ldply(names, function(n) {
+    ex <- get_exhibit(n)
+    data.frame(exhibit=n, tissue=ex$key$tissue, from='global')
+  })
+  rbind(from_package, from_global)
 }
 
 map_values <- function(rgb, df, exhibit) {
@@ -38,7 +49,7 @@ map_values <- function(rgb, df, exhibit) {
   if(length(tissue_name > 0) )
      return(df$fill[match(tissue_name, df$tissue)])
   else
-    return("#FFFFFF")
+    return("#000000")
 }
 
 #' @importClassesFrom grImport PictureFill
@@ -46,6 +57,12 @@ setMethod("mapcols", "PictureFill", function(object, df, exhibit, ...) {
   pathGrob(object@x, object@y,
            default.units="native",
            gp=gpar(col=NA, fill=map_values(object@rgb, df, exhibit)), ...)
+})
+
+#' @importClassesFrom grImport PictureFill
+setMethod("mapcols", "PictureText", function(object, df, exhibit, ...) {
+  pathGrob(object@x, object@y,
+           default.units="native", ...)
 })
 
 #' @importClassesFrom grImport PictureStroke

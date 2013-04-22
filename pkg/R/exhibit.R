@@ -4,6 +4,7 @@ exhibit <-
                idof=function(., x) {
                  .$key$tissue[.$key$id == x]
                },
+               what='ggefp-exhibit',
                pprint=function(.) {
                  cat(sprintf('%s\n', .$desc))
                })

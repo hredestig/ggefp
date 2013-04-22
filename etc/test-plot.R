@@ -24,6 +24,20 @@ ggplot(dd, aes(tissue=tissue, fill=value)) +
   geom_efp(clct) + expand_limits(clct) + theme_efp()
 
 
+dd <- data.frame(tissue=c("leaf-1", "leaf-2", "leaf-4", "leaf-6",
+                   "leaf-7-distal", "leaf-7-prox", "leaf-7-petiole",
+                   "leaf-8", "leaf-10", "leaf-12", "leaf-cauline",
+                   "leaf-senescent", 'cotelydons', 'root',
+                   'hypocotyl'))
+dd$val <- abs(rnorm(nrow(dd),sd=20))
+
+clct <- data.frame(exhibit=c('ath_seedling', 'ath_leaf_series'),
+                   x=c(.1, .6), y=c(.5, .5),
+                   width=c(.2,.9), height=c(1,1))
+
+ggplot(dd, aes(tissue=tissue, fill=val)) +
+  geom_efp(clct) + expand_limits(clct) + theme_efp() +
+  xlim(0,1) + ylim(0,1)
 
 
 

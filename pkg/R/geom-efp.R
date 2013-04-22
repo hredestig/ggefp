@@ -72,7 +72,7 @@ GeomEfp <- proto(ggplot2:::GeomMap, {
 efp_grob_single <- function(cl, data) {
   exhibit_file <-
     file.path(system.file('exhibits',
-                          paste0(cl$exhibit, '.rda'),
+                          paste(cl$exhibit, '.rda', sep=''),
                           package='ggefp'))
   
   stopifnot(nrow(cl) == 1)
