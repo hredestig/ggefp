@@ -9,9 +9,11 @@ browser](http://bar.utoronto.ca/efp/cgi-bin/efpWeb.cgi) that shows
 gene expression values in various tissues in plants and other species.
 
 To install or update, run:
-   
-    library(devtools)
-    install_github("ggefp", subdir="pkg")
+
+```r
+library(devtools)
+install_github("ggefp", subdir="pkg")
+```
 
 Usage
 -----
@@ -19,8 +21,6 @@ Usage
 The line drawings to display are denoted *exhibits* and define the
 line drawing as well as which paths correspond to which tissue. To see
 the exhibits provided with the package (currently only toy example)
-
-
 
 ```r
 library(ggefp)
@@ -69,6 +69,6 @@ New exhibits
 New exhibits should first be generated in a vector graphics program
 such as inkscape where each tissue is filled with a unique
 color. These colors are matched with the tissue name and exhibits are
-created according to the [trace.R file](etc/trace.R). Exhibits from outside the ggefp
+created according to [etc/trace.R](etc/trace.R). Exhibits from outside the ggefp
 package are named as paths to saved R-objects (one object per rda
 file)
