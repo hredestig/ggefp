@@ -2,7 +2,7 @@ ggefp
 =====
 
 ggefp is an extension of the ggplot2 package that provides
-functionatlity to plot line drawings with regions filled according to
+functionality to plot line drawings with regions filled according to
 provided data. With the right line drawings, ggefp can be used to
 provide data visualization similar to those known from the [eFP
 browser](http://bar.utoronto.ca/efp/cgi-bin/efpWeb.cgi) that shows
