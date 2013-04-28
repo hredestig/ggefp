@@ -24,3 +24,4 @@ Collate:
     'themes.R'
     'utils.R'
     'zzz.R'
+    'collections.R'

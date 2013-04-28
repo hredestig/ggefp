@@ -1,0 +1,17 @@
+\docType{data}
+\name{ath_developmental_map}
+\alias{ath_developmental_map}
+\title{Arabidopsis developmental map}
+\format{a data frame}
+\usage{
+  ath_developmental_map
+}
+\description{
+  Arabidopsis developmental map
+}
+\references{
+  Provided by Nicholas Provart
+  \url{http://bar.utoronto.ca/efp/cgi-bin/efpWeb.cgi}
+}
+\keyword{datasets}
+

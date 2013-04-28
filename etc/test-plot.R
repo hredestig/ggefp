@@ -1,4 +1,17 @@
 library(ggefp)
+dd <- data.frame(tissue=exhibits()$tissue)
+dd$val <- abs(rnorm(nrow(dd),sd=40))
+
+ggplot(dd, aes(tissue=tissue, fill=val)) +
+  geom_efp(ath_developmental_map) +
+  expand_limits(ath_developmental_map) + 
+  xlim(0,1) + ylim(0,1)
+
+
+
+
+
+
 dd <- data.frame(tissue=rep(c('leaf6', 'cotelydons', 'root',
                    'hypocotyl'), 2),
                  value=c(1,1000,200,20, 1100, 40,60,900),
@@ -28,20 +41,33 @@ dd <- data.frame(tissue=c("leaf-1", "leaf-2", "leaf-4", "leaf-6",
                    "leaf-7-distal", "leaf-7-prox", "leaf-7-petiole",
                    "leaf-8", "leaf-10", "leaf-12", "leaf-cauline",
                    "leaf-senescent", 'vegetative-rosette', 'root',
-                   'mature-rosette', '1st-internode', '2nd-internode', 'cauline-leaf'))
+                   'mature-rosette', '1st-internode', '2nd-internode',
+                   'cauline-leaf', 'silique-5', 'silique-4', 'bud-9',
+                   'bud-10', 'bud-11', 'bud-12', 'sepal-12',
+                   'petal-12', 'stamen-12', 'carpel-12', 'flower-15',
+                   'pedicel-15', 'sepal-15', 'petal-15', 'stamen-15',
+                   'carpel-15',
+                   'mature-pollen','cotelydons','hypocotyl-root',
+                   'seed-silique-embryo-3', 'seed-silique-embryo-4',
+                   'seed-silique-embryo-5', 'seed-6', 'seed-7',
+                   'seed-8', 'seed-9', 'seed-10',
+                   'shoot-apex-vegetative',
+                    'shoot-apex-transition', 'shoot-apex-inflorescence',
+                   'imbibed-seed', 'dry-seed'))
+
+dd <- data.frame(tissue=exhibits()$tissue)
 dd$val <- abs(rnorm(nrow(dd),sd=40))
 
-clct <- data.frame(exhibit=c('ath_young_plant', 'ath_leaf_series', 'ath_mature_plant'),
-                   x=c(.3, .6,.7), y=c(.5, .5,.5),
-                   width=c(1,.9,.4), height=c(1,1,1))
-
-clct <- data.frame(exhibit=c('ath_mature_plant'),
-                   x=c(.5), y=c(.5),
-                   width=c(1), height=c(1))
-
+clct <- data.frame(exhibit=c('ath_mature_plant', 'ath_young_plant',
+                     'ath_leaf_series', 
+                     'ath_flower_series', 'ath_seedling',
+                     'ath_seed_series', 'ath_shoot_apex',
+                     'ath_dormant_seeds'),
+                   x=c(.1, .27, .65, .6, .27, .7,.33, .20), y=c(.5, .4, .4, .1, .65, .8, .9, .2),
+                   width=c(.3, .3, .7, .8, .17, .6, .3, .2), height=c(1, .3, .7, .8, .17, .6, .3,.2))
 
 ggplot(dd, aes(tissue=tissue, fill=val)) +
-  geom_efp(clct) + expand_limits(clct) + theme_efp() +
+  geom_efp(clct) + expand_limits(clct) + #theme_efp() +
   xlim(0,1) + ylim(0,1)
 
 ggplot(dd, aes(tissue=tissue, fill=val)) +
