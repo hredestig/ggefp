@@ -20,6 +20,8 @@ NULL
 #' and \code{height} to decide the size of the exhibit.
 #' @param mapping as provided by using \code{aes}
 #' @param data the data provided as a data frame
+#' @param labels if true, draw the text components defined in the
+#' exhibit
 #' @param stat the stat to plot
 #' @param position not needed
 #' @param ... passed on to creation of the prototype
@@ -27,26 +29,27 @@ NULL
 #' @author Henning Redestig
 #' @examples
 #' values <- data.frame(tissue=c('cotelydons', 'root', 'hypocotyl'),
-#'                      value=c(1,1000,200))
+#' value=c(1,1000,200))
 #' 
 #' collection <- data.frame(exhibit='ath_seedling', x=.5, y=.5)
 #' ggplot(values, aes(tissue=tissue, fill=value)) +
-#'   geom_efp(collection) + 
-#'   expand_limits(collection) + xlim(0,1) + ylim(0,1)
+#' geom_efp(collection) + 
+#' expand_limits(collection) + xlim(0,1) + ylim(0,1)
 #' 
 #' values <-
-#'   data.frame(tissue=rep(c('leaf6', 'cotelydons', 'root', 'hypocotyl'), 2),
-#'              value=c(1,1000,200,20, 1100, 40,60,900),
-#'              treatment=rep(c('control', 'cold'), each=4))
+#' data.frame(tissue=rep(c('leaf6', 'cotelydons', 'root', 'hypocotyl'), 2),
+#' value=c(1,1000,200,20, 1100, 40,60,900),
+#' treatment=rep(c('control', 'cold'), each=4))
 #' collection <- data.frame(exhibit=c('ath_seedling', 'ath_leaf6'),
-#'                          x=c(.5, .2), y=c(.5, .3),
-#'                          width=c(1,.3), height=c(1,.3))
+#' x=c(.5, .2), y=c(.5, .3),
+#' width=c(1,.3), height=c(1,.3))
 #' ggplot(values, aes(tissue=tissue, fill=value)) +
-#'   geom_efp(collection) +
-#'   facet_wrap(~treatment) + expand_limits(collection) +
-#'   xlim(0,1) + ylim(0,1) + theme_efp()
+#' geom_efp(collection) +
+#' facet_wrap(~treatment) + expand_limits(collection) +
+#' xlim(0,1) + ylim(0,1) + theme_efp()
 geom_efp <- function(collection, 
                      mapping=NULL, data=NULL,
+                     labels=TRUE,
                      stat="identity",
                      position="identity", ...) { 
 
@@ -56,20 +59,23 @@ geom_efp <- function(collection,
   if(is.null(collection$exhibit))
     collection$exhibit  <- 'ath_seedling'
   stopifnot(all(c('x', 'y', 'exhibit') %in% names(collection)))
-  GeomEfp$new(geom_params=list(collection=collection, ...),
-             mapping=mapping,  data=data, stat=stat, ...)
+  GeomEfp$new(geom_params=list(collection=collection,
+                labels=labels, ...),
+              mapping=mapping,  data=data, stat=stat,
+              ...)
 }
 
 GeomEfp <- proto(ggplot2:::GeomMap, {
   objname <- 'efp'
-  draw_groups <- function(., data, scales, coordinates, collection) {
+  draw_groups <- function(., data, scales, coordinates, collection,
+                          labels) {
     coords <- coord_munch(coordinates, collection, scales)
-    ggefp:::efp_grob(coords, data)
+    ggefp:::efp_grob(coords, data, labels)
   }
   required_aes <- c('tissue', 'fill')
 })
 
-efp_grob_single <- function(cl, data) {
+efp_grob_single <- function(cl, data, labels) {
   exhibit_file <-
     file.path(system.file('exhibits',
                           paste(cl$exhibit, '.rda', sep=''),
@@ -78,13 +84,14 @@ efp_grob_single <- function(cl, data) {
   stopifnot(nrow(cl) == 1)
   exhibit <- get_exhibit(cl$exhibit)
   grImport::pictureGrob(exhibit$img, cl$x, cl$y,
-                        cl$width, cl$height, FUN=mapcols,
-                        df=data, exhibit=exhibit)
+                        cl$width, cl$height, FUN=mapgrobify,
+                        df=data, exhibit=exhibit,
+                        labels=labels)
 }
 
-efp_grob <- function(collection, data) {
+efp_grob <- function(collection, data, labels) {
   grob_list <- dlply(collection, 'exhibit',
-                     ggefp:::efp_grob_single, data)
+                     ggefp:::efp_grob_single, data, labels)
   do.call('gList', grob_list)
 }
 

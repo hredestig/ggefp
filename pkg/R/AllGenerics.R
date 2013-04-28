@@ -1,1 +1,1 @@
-setGeneric("mapcols", function(object, ...) standardGeneric("mapcols"))
+setGeneric("mapgrobify", function(object, ...) standardGeneric("mapgrobify"))

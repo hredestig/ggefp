@@ -3,7 +3,8 @@
 \title{Filled paths from locally stored vector graphics}
 \usage{
   geom_efp(collection, mapping = NULL, data = NULL,
-    stat = "identity", position = "identity", ...)
+    labels = TRUE, stat = "identity",
+    position = "identity", ...)
 }
 \arguments{
   \item{collection}{Data frame that contains the exhibit
@@ -17,6 +18,9 @@
   \item{mapping}{as provided by using \code{aes}}
 
   \item{data}{the data provided as a data frame}
+
+  \item{labels}{if true, draw the text components defined
+  in the exhibit}
 
   \item{stat}{the stat to plot}
 
@@ -36,24 +40,24 @@
 }
 \examples{
 values <- data.frame(tissue=c('cotelydons', 'root', 'hypocotyl'),
-                     value=c(1,1000,200))
+value=c(1,1000,200))
 
 collection <- data.frame(exhibit='ath_seedling', x=.5, y=.5)
 ggplot(values, aes(tissue=tissue, fill=value)) +
-  geom_efp(collection) +
-  expand_limits(collection) + xlim(0,1) + ylim(0,1)
+geom_efp(collection) +
+expand_limits(collection) + xlim(0,1) + ylim(0,1)
 
 values <-
-  data.frame(tissue=rep(c('leaf6', 'cotelydons', 'root', 'hypocotyl'), 2),
-             value=c(1,1000,200,20, 1100, 40,60,900),
-             treatment=rep(c('control', 'cold'), each=4))
+data.frame(tissue=rep(c('leaf6', 'cotelydons', 'root', 'hypocotyl'), 2),
+value=c(1,1000,200,20, 1100, 40,60,900),
+treatment=rep(c('control', 'cold'), each=4))
 collection <- data.frame(exhibit=c('ath_seedling', 'ath_leaf6'),
-                         x=c(.5, .2), y=c(.5, .3),
-                         width=c(1,.3), height=c(1,.3))
+x=c(.5, .2), y=c(.5, .3),
+width=c(1,.3), height=c(1,.3))
 ggplot(values, aes(tissue=tissue, fill=value)) +
-  geom_efp(collection) +
-  facet_wrap(~treatment) + expand_limits(collection) +
-  xlim(0,1) + ylim(0,1)
+geom_efp(collection) +
+facet_wrap(~treatment) + expand_limits(collection) +
+xlim(0,1) + ylim(0,1) + theme_efp()
 }
 \author{
   Henning Redestig

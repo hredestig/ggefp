@@ -12,7 +12,8 @@ get_exhibit <- function(name) {
   if(!file.exists(name) & !file.exists(pkg_path))
     stop('unknown exhibit ', name)
   res <- get(load(file.path(name)))
-  if(is.null(res$key)) stop(name, ' does not look like a ggefp exhibit')
+  if(is.null(res$key))
+    stop(name, ' does not look like a ggefp exhibit')
   res
 }
 
@@ -35,8 +36,9 @@ exhibits <- function() {
     ex <- get_exhibit(n)
     data.frame(exhibit=n, tissue=ex$key$tissue, from=.pkg)
   })
-  names <- Filter(function(x) inherits(x, 'proto') &&
-                  x$what == 'ggefp-exhibit', ls())
+  names <- Filter(function(x) inherits(get(x), 'proto') &&
+                  get(x)$what == 'ggefp-exhibit' &&
+                  !is.null(get(x)$img), ls(.GlobalEnv))
   from_global <- ldply(names, function(n) {
     ex <- get_exhibit(n)
     data.frame(exhibit=n, tissue=ex$key$tissue, from='global')
@@ -46,29 +48,26 @@ exhibits <- function() {
 
 map_values <- function(rgb, df, exhibit) {
   tissue_name <- exhibit$idof(rgb)
-  if(length(tissue_name > 0) )
-     return(df$fill[match(tissue_name, df$tissue)])
-  else
-    return("#000000")
+  ifelse(length(tissue_name > 0),
+         df$fill[match(tissue_name, df$tissue)],
+         NA)
+}
+
+#' @importFrom grImport grobify
+do_mapgrobify <- function(object, df, exhibit, labels=TRUE, ...) {
+  if('rgb' %in% slotNames(object)) {
+     new_rgb <- map_values(object@rgb, df, exhibit)
+    if(!is.na(new_rgb))
+      object@rgb <- map_values(object@rgb, df, exhibit)
+   }
+  grobify(object, ...)
 }
 
 #' @importClassesFrom grImport PictureFill
-setMethod("mapcols", "PictureFill", function(object, df, exhibit, ...) {
-  pathGrob(object@x, object@y,
-           default.units="native",
-           gp=gpar(col=NA, fill=map_values(object@rgb, df, exhibit)), ...)
-})
-
-#' @importClassesFrom grImport PictureFill
-setMethod("mapcols", "PictureText", function(object, df, exhibit, ...) {
-  pathGrob(object@x, object@y,
-           default.units="native", ...)
-})
-
+setMethod("mapgrobify", "PictureFill", do_mapgrobify)
 #' @importClassesFrom grImport PictureStroke
-setMethod("mapcols", "PictureStroke", function(object, df, exhibit, ...) {
-  polylineGrob(object@x, object@y,
-               default.units="native",
-               gp=gpar(col="#000000"), ...)
+setMethod("mapgrobify", "PictureStroke", do_mapgrobify)
+setMethod("mapgrobify", "PictureText", function(object, df, exhibit, labels=TRUE, ...) {
+  if(labels) do_mapgrobify(object, df, exhibit, ...)
 })
-
+          

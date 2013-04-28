@@ -4,7 +4,12 @@ library(grImport)
 library(proto)
 source('../pkg/R/exhibit.R')
 
-lapply(list.files('../img', pattern='\\.svg$', full.names=TRUE),
+svgs <- list.files('../img', pattern='\\.svg$', full.names=TRUE)
+svgs <- Filter(function(x) {
+  if(!file.exists(gsub('svg', 'xml', x))) TRUE
+  else file.info(gsub('svg', 'xml', x))$mtime < file.info(x)$mtime
+}, svgs)
+lapply(svgs,
        function(svg) {
          ps <- gsub('\\.svg', '.ps', svg)
          xml <- gsub('\\.svg', '.xml', svg)
@@ -44,3 +49,22 @@ ath_leaf_series <-
                     '#669966', '#659966', '#99CC65', '#999900'),
                   stringsAsFactors=FALSE))
 save(ath_leaf_series, file='../pkg/inst/exhibits/ath_leaf_series.rda')
+
+ath_young_plant <-
+  exhibit$proto(img=readPicture('../img/ath-young-plant.xml'),
+                desc='Arabidopsis thaliana young plant with vegetative rosette',
+                key=data.frame(
+                  tissue=c('vegetative-rosette', 'root'),
+                  id=c('#99CC64', '#CCCC97'),
+                  stringsAsFactors=FALSE))
+save(ath_young_plant, file='../pkg/inst/exhibits/ath_young_plant.rda')
+
+
+ath_mature_plant <-
+  exhibit$proto(img=readPicture('../img/ath-mature-plant.xml'),
+                desc='Arabidopsis thaliana mature plant with vegetative rosette',
+                key=data.frame(
+                  tissue=c('mature-rosette', '1st-internode', '2nd-internode', 'cauline-leaf'),
+                  id=c('#99CC64', '#00CCFF', '#99CCFF', '#99CC65'),
+                  stringsAsFactors=FALSE))
+save(ath_mature_plant, file='../pkg/inst/exhibits/ath_mature_plant.rda')

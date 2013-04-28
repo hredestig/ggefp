@@ -27,16 +27,25 @@ ggplot(dd, aes(tissue=tissue, fill=value)) +
 dd <- data.frame(tissue=c("leaf-1", "leaf-2", "leaf-4", "leaf-6",
                    "leaf-7-distal", "leaf-7-prox", "leaf-7-petiole",
                    "leaf-8", "leaf-10", "leaf-12", "leaf-cauline",
-                   "leaf-senescent", 'cotelydons', 'root',
-                   'hypocotyl'))
-dd$val <- abs(rnorm(nrow(dd),sd=20))
+                   "leaf-senescent", 'vegetative-rosette', 'root',
+                   'mature-rosette', '1st-internode', '2nd-internode', 'cauline-leaf'))
+dd$val <- abs(rnorm(nrow(dd),sd=40))
 
-clct <- data.frame(exhibit=c('ath_seedling', 'ath_leaf_series'),
-                   x=c(.1, .6), y=c(.5, .5),
-                   width=c(.2,.9), height=c(1,1))
+clct <- data.frame(exhibit=c('ath_young_plant', 'ath_leaf_series', 'ath_mature_plant'),
+                   x=c(.3, .6,.7), y=c(.5, .5,.5),
+                   width=c(1,.9,.4), height=c(1,1,1))
+
+clct <- data.frame(exhibit=c('ath_mature_plant'),
+                   x=c(.5), y=c(.5),
+                   width=c(1), height=c(1))
+
 
 ggplot(dd, aes(tissue=tissue, fill=val)) +
   geom_efp(clct) + expand_limits(clct) + theme_efp() +
+  xlim(0,1) + ylim(0,1)
+
+ggplot(dd, aes(tissue=tissue, fill=val)) +
+  geom_efp(clct, labels=FALSE) + expand_limits(clct) + theme_efp() +
   xlim(0,1) + ylim(0,1)
 
 
