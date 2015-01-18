@@ -11,7 +11,7 @@ get_exhibit <- function(name) {
     name <- pkg_path
   if(!file.exists(name) & !file.exists(pkg_path))
     stop('unknown exhibit ', name)
-  res <- get(load(file.path(name)))
+  res <- readRDS(file.path(name))
   if(is.null(res$key))
     stop(name, ' does not look like a ggefp exhibit')
   res

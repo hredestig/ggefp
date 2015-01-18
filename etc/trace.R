@@ -25,7 +25,7 @@ ath_seedling <-
                   tissue=c('cotelydons','hypocotyl-root'),
                   id=c('#99FF00', '#CCCC98'),
                   stringsAsFactors=FALSE))
-save(ath_seedling, file='../pkg/inst/exhibits/ath_seedling.rda')
+saveRDS(ath_seedling, file='../pkg/inst/exhibits/ath_seedling.rda')
                              
 ath_leaf6 <-
   exhibit$proto(img=readPicture('../img/ath-leaf6.xml'),
@@ -34,7 +34,7 @@ ath_leaf6 <-
                   tissue=c('leaf6'),
                   id=c('#800000'),
                   stringsAsFactors=FALSE))
-save(ath_leaf6, file='../pkg/inst/exhibits/ath_leaf6.rda')
+saveRDS(ath_leaf6, file='../pkg/inst/exhibits/ath_leaf6.rda')
                              
 
 ath_leaf_series <-
@@ -49,7 +49,7 @@ ath_leaf_series <-
                     '#64CC66', '#00CC66', '#00CBFF', '#65CC66',
                     '#669966', '#659966', '#99CC65', '#999900'),
                   stringsAsFactors=FALSE))
-save(ath_leaf_series, file='../pkg/inst/exhibits/ath_leaf_series.rda')
+saveRDS(ath_leaf_series, file='../pkg/inst/exhibits/ath_leaf_series.rda')
 
 ath_young_plant <-
   exhibit$proto(img=readPicture('../img/ath-young-plant.xml'),
@@ -58,7 +58,7 @@ ath_young_plant <-
                   tissue=c('vegetative-rosette', 'root'),
                   id=c('#99CC64', '#CCCC97'),
                   stringsAsFactors=FALSE))
- save(ath_young_plant, file='../pkg/inst/exhibits/ath_young_plant.rda')
+ saveRDS(ath_young_plant, file='../pkg/inst/exhibits/ath_young_plant.rda')
 
 
 ath_mature_plant <-
@@ -70,7 +70,7 @@ ath_mature_plant <-
                   id=c('#99CC66', '#00CCFF', '#99CCFF', '#99CC65',
                     '#FFCC97','#FFCC98'),
                   stringsAsFactors=FALSE))
-save(ath_mature_plant, file='../pkg/inst/exhibits/ath_mature_plant.rda')
+saveRDS(ath_mature_plant, file='../pkg/inst/exhibits/ath_mature_plant.rda')
 
 
 ath_flower_series <-
@@ -88,7 +88,7 @@ ath_flower_series <-
                     '#CBFF00', '#CAFF00', '#C9FF00', '#C8FF00',
                     '#FF0000'),
                   stringsAsFactors=FALSE))
-save(ath_flower_series, file='../pkg/inst/exhibits/ath_flower_series.rda')
+saveRDS(ath_flower_series, file='../pkg/inst/exhibits/ath_flower_series.rda')
 
 
 ath_seed_series <-
@@ -102,7 +102,7 @@ ath_seed_series <-
                     '#FFCC00', '#FECC00', '#FDCC00', '#FF9900',
                     '#FE9900'),
                   stringsAsFactors=FALSE))
-save(ath_seed_series, file='../pkg/inst/exhibits/ath_seed_series.rda')
+saveRDS(ath_seed_series, file='../pkg/inst/exhibits/ath_seed_series.rda')
 
 
 ath_shoot_apex <-
@@ -113,7 +113,7 @@ ath_shoot_apex <-
                     'shoot-apex-transition', 'shoot-apex-inflorescence'),
                   id=c('#969999', '#989999', '#979999'),
                   stringsAsFactors=FALSE))
-save(ath_shoot_apex, file='../pkg/inst/exhibits/ath_shoot_apex.rda')
+saveRDS(ath_shoot_apex, file='../pkg/inst/exhibits/ath_shoot_apex.rda')
 
 
 ath_dormant_seeds <-
@@ -123,4 +123,4 @@ ath_dormant_seeds <-
                   tissue=c('imbibed-seed', 'dry-seed'),
                   id=c('#EE7700', '#FF7700'),
                   stringsAsFactors=FALSE))
-save(ath_dormant_seeds, file='../pkg/inst/exhibits/ath_dormant_seeds.rda')
+saveRDS(ath_dormant_seeds, file='../pkg/inst/exhibits/ath_dormant_seeds.rda')
