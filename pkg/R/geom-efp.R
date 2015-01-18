@@ -52,7 +52,7 @@ geom_efp <- function(collection,
                      labels=TRUE,
                      stat="identity",
                      position="identity", ...) { 
-
+    
   stopifnot(is.data.frame(collection))
   if(is.null(collection$width)) collection$width  <- 1
   if(is.null(collection$height)) collection$height  <- 1
@@ -63,6 +63,7 @@ geom_efp <- function(collection,
                 labels=labels, ...),
               mapping=mapping,  data=data, stat=stat,
               ...)
+  
 }
 
 GeomEfp <- proto(ggplot2:::GeomMap, {
@@ -76,6 +77,7 @@ GeomEfp <- proto(ggplot2:::GeomMap, {
 })
 
 efp_grob_single <- function(cl, data, labels) {
+  
   exhibit_file <-
     file.path(system.file('exhibits',
                           paste(cl$exhibit, '.rda', sep=''),
@@ -90,6 +92,7 @@ efp_grob_single <- function(cl, data, labels) {
 }
 
 efp_grob <- function(collection, data, labels) {
+  
   grob_list <- dlply(collection, 'exhibit',
                      ggefp:::efp_grob_single, data, labels)
   do.call('gList', grob_list)

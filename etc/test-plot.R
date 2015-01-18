@@ -9,6 +9,21 @@ ggplot(dd, aes(tissue=tissue, fill=val)) +
 
 
 
+collection <- data.frame(exhibit=c('ath_seedling', 'ath_young_plant'),
+                 x=c(.2, .7), y=c(.5, .5), width=c(.4,.6), height=c(1,1))
+
+values <-
+  data.frame(tissue=rep(c('hypocotyl-root', 'cotelydons',
+               'vegetative-rosette', 'root'), 2),
+             value=c(1,200,20, 1100, 1, 40,60,900),
+             treatment=rep(c('control', 'cold'), each=4))
+
+ggplot(values, aes(tissue=tissue, fill=value)) +
+  geom_efp(collection) +
+  facet_wrap(~treatment) + expand_limits(collection) +
+  xlim(0,1) + ylim(0,1) + theme_efp()
+
+
 
 
 
