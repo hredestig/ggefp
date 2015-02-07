@@ -8,3 +8,4 @@ pkg.Rcheck/*
 .Rhistory
 img/*.xml
 img/*.ps
+/etc/*.ps

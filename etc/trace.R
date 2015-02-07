@@ -19,12 +19,14 @@ lapply(svgs,
        })
 
 ath_seedling <-
+
   exhibit$proto(img=readPicture('../img/ath-seedling.xml'),
                 desc='Arabidopsis thaliana seedling',
                 key=data.frame(
-                  tissue=c('cotelydons','hypocotyl-root'),
-                  id=c('#99FF00', '#CCCC98'),
+                  tissue=c('cotelydons','hypocotyl', 'root'),
+                  id=c('#99FF00', '#80080', '#F4D7D7'),
                   stringsAsFactors=FALSE))
+
 saveRDS(ath_seedling, file='../pkg/inst/exhibits/ath_seedling.rda')
                              
 ath_leaf6 <-
