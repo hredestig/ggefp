@@ -13,10 +13,10 @@ collection <- data.frame(exhibit=c('ath_seedling', 'ath_young_plant'),
                  x=c(.2, .7), y=c(.5, .5), width=c(.4,.6), height=c(1,1))
 
 values <-
-  data.frame(tissue=rep(c('hypocotyl-root', 'cotelydons',
+  data.frame(tissue=rep(c('hypocotyl', 'young-root', 'cotelydons',
                'vegetative-rosette', 'root'), 2),
-             value=c(1,200,20, 1100, 1, 40,60,900),
-             treatment=rep(c('control', 'cold'), each=4))
+             value=c(3000, 2000, 20, 20, 1100, 1, 40, 60, 900, 10),
+             treatment=rep(c('control', 'cold'), each=5))
 
 ggplot(values, aes(tissue=tissue, fill=value)) +
   geom_efp(collection) +
