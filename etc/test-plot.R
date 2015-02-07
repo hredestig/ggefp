@@ -1,13 +1,4 @@
 library(ggefp)
-dd <- data.frame(tissue=exhibits()$tissue)
-dd$val <- abs(rnorm(nrow(dd),sd=40))
-
-ggplot(dd, aes(tissue=tissue, fill=val)) +
-  geom_efp(ath_developmental_map) +
-  expand_limits(ath_developmental_map) + 
-  xlim(0,1) + ylim(0,1)
-
-
 
 collection <- data.frame(exhibit=c('ath_seedling', 'ath_young_plant'),
                  x=c(.2, .7), y=c(.5, .5), width=c(.4,.6), height=c(1,1))
@@ -18,10 +9,24 @@ values <-
              value=c(3000, 2000, 20, 20, 1100, 1, 40, 60, 900, 10),
              treatment=rep(c('control', 'cold'), each=5))
 
-ggplot(values, aes(tissue=tissue, fill=value)) +
+ggplot(values, aes(tissue=tissue, fill=ifelse(value > 1000, 1000, value))) +
   geom_efp(collection) +
-  facet_wrap(~treatment) + expand_limits(collection) +
-  xlim(0,1) + ylim(0,1) + theme_efp()
+  facet_wrap(~treatment) +
+  expand_limits(collection) +
+  xlim(0,1) + ylim(0,1) + theme_efp() +
+  scale_fill_continuous(name="thresholded value")
+
+dd <- data.frame(tissue=exhibits()$tissue)
+dd$val <- abs(rnorm(nrow(dd),sd=40))
+
+ggplot(dd, aes(tissue=tissue, fill=val)) +
+  geom_efp(ath_developmental_map) +
+  expand_limits(ath_developmental_map) + 
+  xlim(0,1) + ylim(0,1)
+
+
+
+      
 
 
 

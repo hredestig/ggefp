@@ -11,7 +11,7 @@ gene expression values in various tissues in plants and other species.
 To install or update, run:
    
     library(devtools)
-    install_github("ggefp", subdir="pkg")
+    install_github("hredestig/ggefp", subdir="pkg")
 
 Usage
 -----
@@ -87,5 +87,4 @@ New exhibits should first be generated in a vector graphics program
 such as inkscape where each tissue is filled with a unique
 color. These colors are matched with the tissue name and exhibits are
 created according to the [trace.R file](etc/trace.R). Exhibits from outside the ggefp
-package are named as paths to saved R-objects (one object per rda
-file)
+package are named as paths to saved R-objects (saved using `saveRDS`)
