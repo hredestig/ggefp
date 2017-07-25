@@ -1,7 +1,7 @@
 Package: ggefp
 Type: Package
 Title: A way to plot tissue maps using ggplot2
-Version: 0.0.1
+Version: 0.1.0
 Author: Henning Redestig <henning.red@gmail.com>
 Maintainer: Henning Redestig <henning.red@gmail.com>
 Description: This package defines a ggplot2 geom that maps values to
