@@ -1,6 +1,9 @@
 ggefp
 =====
 
+[![Build Status](https://travis-ci.org/hredestig/ggefp.svg?branch=master)](https://travis-ci.org/hredestig/ggefp)
+
+
 ggefp is an extension of the ggplot2 package that provides
 functionality to plot line drawings with regions filled according to
 provided data. With the right line drawings, ggefp can be used to
