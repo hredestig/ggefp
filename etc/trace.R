@@ -1,34 +1,29 @@
 #!/usr/bin/Rscript
 
 library(grImport)
-library(proto)
+library(ggplot2)
 source('../pkg/R/exhibit.R')
 
-svgs <- list.files('../img', pattern='\\.svg$', full.names=TRUE)
-svgs <- Filter(function(x) {
-  if(!file.exists(gsub('svg', 'xml', x))) TRUE
-  else file.info(gsub('svg', 'xml', x))$mtime < file.info(x)$mtime
-}, svgs)
+postscripts <- list.files('../img', pattern='\\.ps$', full.names=TRUE)
 
-lapply(svgs,
-       function(svg) {
-         ps <- gsub('\\.svg', '.ps', svg)
-         xml <- gsub('\\.svg', '.xml', svg)
-         system(sprintf('inkscape %s --export-ps=%s', svg, ps))
+lapply(postscripts,
+       function(ps) {
+         xml <- gsub('\\.ps', '.xml', ps)
          PostScriptTrace(ps, xml)
        })
 
+
 ath_seedling <-
-  exhibit$proto(img=readPicture('../img/ath-seedling.xml'),
-                desc='Arabidopsis thaliana seedling',
-                key=data.frame(
-                  tissue=c('cotelydons','hypocotyl', 'young-root'),
-                  id=c('#99FF00', '#800080', '#F4D7D7'),
-                  stringsAsFactors=FALSE))
+  ggproto("Exhibit", BaseExhibit, img=readPicture('../img/ath-seedling.xml'),
+          desc='Arabidopsis thaliana seedling',
+          key=data.frame(
+              tissue=c('cotelydons','hypocotyl', 'young-root'),
+              id=c('#99FF00', '#800080', '#F4D7D7'),
+              stringsAsFactors=FALSE))
 saveRDS(ath_seedling, file='../pkg/inst/exhibits/ath_seedling.rda')
                              
 ath_leaf6 <-
-  exhibit$proto(img=readPicture('../img/ath-leaf6.xml'),
+  ggproto("Exhibit", BaseExhibit, img=readPicture('../img/ath-leaf6.xml'),
                 desc='Arabidopsis thaliana leaf number 6-7',
                 key=data.frame(
                   tissue=c('leaf6'),
@@ -38,7 +33,7 @@ saveRDS(ath_leaf6, file='../pkg/inst/exhibits/ath_leaf6.rda')
                              
 
 ath_leaf_series <-
-  exhibit$proto(img=readPicture('../img/ath-leaf-series.xml'),
+  ggproto("Exhibit", BaseExhibit, img=readPicture('../img/ath-leaf-series.xml'),
                 desc='Arabidopsis thaliana leafs 1-12, cauline and senescent',
                 key=data.frame(
                   tissue=c('leaf-1', 'leaf-2', 'leaf-4', 'leaf-6',
@@ -52,7 +47,7 @@ ath_leaf_series <-
 saveRDS(ath_leaf_series, file='../pkg/inst/exhibits/ath_leaf_series.rda')
 
 ath_young_plant <-
-  exhibit$proto(img=readPicture('../img/ath-young-plant.xml'),
+  ggproto("Exhibit", BaseExhibit, img=readPicture('../img/ath-young-plant.xml'),
                 desc='Arabidopsis thaliana young plant with vegetative rosette',
                 key=data.frame(
                   tissue=c('vegetative-rosette', 'root'),
@@ -62,7 +57,7 @@ ath_young_plant <-
 
 
 ath_mature_plant <-
-  exhibit$proto(img=readPicture('../img/ath-mature-plant.xml'),
+  ggproto("Exhibit", BaseExhibit, img=readPicture('../img/ath-mature-plant.xml'),
                 desc='Arabidopsis thaliana mature plant with vegetative rosette',
                 key=data.frame(
                   tissue=c('mature-rosette', '1st-internode', '2nd-internode', 'cauline-leaf',
@@ -74,7 +69,7 @@ saveRDS(ath_mature_plant, file='../pkg/inst/exhibits/ath_mature_plant.rda')
 
 
 ath_flower_series <-
-  exhibit$proto(img=readPicture('../img/ath-flower-series.xml'),
+  ggproto("Exhibit", BaseExhibit, img=readPicture('../img/ath-flower-series.xml'),
                 desc='Arabidopsis thaliana flower development',
                 key=data.frame(
                   tissue=c('bud-9', 'bud-10', 'bud-11', 'bud-12',
@@ -92,7 +87,7 @@ saveRDS(ath_flower_series, file='../pkg/inst/exhibits/ath_flower_series.rda')
 
 
 ath_seed_series <-
-  exhibit$proto(img=readPicture('../img/ath-seed-series.xml'),
+  ggproto("Exhibit", BaseExhibit, img=readPicture('../img/ath-seed-series.xml'),
                 desc='Arabidopsis thaliana seed development',
                 key=data.frame(
                   tissue=c('seed-silique-embryo-3', 'seed-silique-embryo-4', 'seed-silique-embryo-5',
@@ -106,7 +101,7 @@ saveRDS(ath_seed_series, file='../pkg/inst/exhibits/ath_seed_series.rda')
 
 
 ath_shoot_apex <-
-  exhibit$proto(img=readPicture('../img/ath-shoot-apex.xml'),
+  ggproto("Exhibit", BaseExhibit, img=readPicture('../img/ath-shoot-apex.xml'),
                 desc='Arabidopsis thaliana shoot apex',
                 key=data.frame(
                   tissue=c('shoot-apex-vegetative',
@@ -117,7 +112,7 @@ saveRDS(ath_shoot_apex, file='../pkg/inst/exhibits/ath_shoot_apex.rda')
 
 
 ath_dormant_seeds <-
-  exhibit$proto(img=readPicture('../img/ath-dormant-seeds.xml'),
+  ggproto("Exhibit", BaseExhibit, img=readPicture('../img/ath-dormant-seeds.xml'),
                 desc='Arabidopsis thaliana seeds pre-germination',
                 key=data.frame(
                   tissue=c('imbibed-seed', 'dry-seed'),

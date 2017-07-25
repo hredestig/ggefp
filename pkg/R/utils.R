@@ -1,8 +1,8 @@
 get_exhibit <- function(name) {
-  if(inherits(name, 'proto'))
+  if(inherits(name, 'ggproto'))
     return(name)
   name <- as.character(name)
-  if(exists(name) && inherits(get(name), 'proto'))
+  if(exists(name) && inherits(get(name), 'ggproto'))
     return(get(name))
   name <- as.character(name)
   pkg_path <- system.file('exhibits', paste(name, '.rda', sep=''),
@@ -36,7 +36,7 @@ exhibits <- function() {
     ex <- get_exhibit(n)
     data.frame(exhibit=n, tissue=ex$key$tissue, from=.pkg)
   })
-  names <- Filter(function(x) inherits(get(x), 'proto') &&
+  names <- Filter(function(x) inherits(get(x), 'ggproto') &&
                   get(x)$what == 'ggefp-exhibit' &&
                   !is.null(get(x)$img), ls(.GlobalEnv))
   from_global <- ldply(names, function(n) {
@@ -48,9 +48,10 @@ exhibits <- function() {
 
 map_values <- function(rgb, df, exhibit) {
   tissue_name <- exhibit$idof(rgb)
-  ifelse(length(tissue_name > 0),
-         df$fill[match(tissue_name, df$tissue)],
-         NA)
+  if(length(tissue_name > 0))
+    return(df$fill[match(tissue_name, df$tissue)])
+  else
+    return(NA)
 }
 
 #' @importFrom grImport grobify

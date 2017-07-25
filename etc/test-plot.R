@@ -10,11 +10,12 @@ values <-
              treatment=rep(c('control', 'cold'), each=5))
 
 ggplot(values, aes(tissue=tissue, fill=ifelse(value > 1000, 1000, value))) +
-  geom_efp(collection) +
-  facet_wrap(~treatment) +
-  expand_limits(collection) +
-  xlim(0,1) + ylim(0,1) + theme_efp() +
-  scale_fill_continuous(name="thresholded value")
+    geom_efp(collection) +
+    facet_wrap(~treatment) +
+    expand_limits(collection) +
+    xlim(0,1) + ylim(0,1) +
+    scale_fill_continuous(name="thresholded value") +
+    theme_efp() 
 
 dd <- data.frame(tissue=exhibits()$tissue)
 dd$val <- abs(rnorm(nrow(dd),sd=40))
@@ -25,8 +26,22 @@ ggplot(dd, aes(tissue=tissue, fill=val)) +
   xlim(0,1) + ylim(0,1)
 
 
+values <- data.frame(tissue=c('cotelydons', 'young-root', 'hypocotyl'),
+                     value=c(1,1000,200))
+collection <- data.frame(exhibit='ath_seedling', x=.5, y=.5)
+ggplot(values, aes(tissue=tissue, fill=value)) +
+    geom_efp(collection) +
+    expand_limits(collection) + xlim(0,1) + ylim(0,1)
 
-      
+values <-
+  data.frame(tissue=(c('hypocotyl', 'young-root', 'cotelydons',
+               'vegetative-rosette', 'root')),
+             value=c(3000, 2000, 20, 20, 1100))
+
+collection <- data.frame(exhibit='ath_young_plant', x=.5, y=.5)
+ggplot(values, aes(tissue=tissue, fill=value)) +
+    geom_efp(collection) +
+    expand_limits(collection) + xlim(0,1) + ylim(0,1)
 
 
 

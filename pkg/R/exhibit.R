@@ -1,10 +1,10 @@
-exhibit <-
-  proto::proto(img=NULL, desc=NULL, key=data.frame(),
-               what='ggefp-exhibit',
-               draw=function(., ...) grid.picture(.$img, ...),
-               idof=function(., x) {
-                 .$key$tissue[.$key$id == x]
-               },
-               pprint=function(.) {
-                 cat(sprintf('%s\n', .$desc))
-               })
+BaseExhibit <-
+  ggproto(img=NULL, desc=NULL, key=data.frame(),
+          what='ggefp-exhibit',
+          draw=function(self, ...) grid.picture(self$img, ...),
+          idof=function(self, x) {
+            self$key$tissue[self$key$id == x]
+          },
+          pprint=function(self) {
+            cat(sprintf('%s\n', self$desc))
+          })

@@ -28,7 +28,7 @@ NULL
 #' @export
 #' @author Henning Redestig
 #' @examples
-#' values <- data.frame(tissue=c('cotelydons', 'root', 'hypocotyl'),
+#' values <- data.frame(tissue=c('cotelydons', 'young-root', 'hypocotyl'),
 #' value=c(1,1000,200))
 #' 
 #' collection <- data.frame(exhibit='ath_seedling', x=.5, y=.5)
@@ -37,7 +37,7 @@ NULL
 #' expand_limits(collection) + xlim(0,1) + ylim(0,1)
 #' 
 #' values <-
-#' data.frame(tissue=rep(c('leaf6', 'cotelydons', 'root', 'hypocotyl'), 2),
+#' data.frame(tissue=rep(c('leaf6', 'cotelydons', 'young-root', 'hypocotyl'), 2),
 #' value=c(1,1000,200,20, 1100, 40,60,900),
 #' treatment=rep(c('control', 'cold'), each=4))
 #' collection <- data.frame(exhibit=c('ath_seedling', 'ath_leaf6'),
@@ -59,22 +59,24 @@ geom_efp <- function(collection,
   if(is.null(collection$exhibit))
     collection$exhibit  <- 'ath_seedling'
   stopifnot(all(c('x', 'y', 'exhibit') %in% names(collection)))
-  GeomEfp$new(geom_params=list(collection=collection,
-                labels=labels, ...),
-              mapping=mapping,  data=data, stat=stat,
-              ...)
   
+  layer(
+      geom=GeomEfp,
+      params=list(collection=collection, labels=labels, na.rm=FALSE,...),
+      inherit.aes=TRUE,
+      mapping=mapping, data=data, stat=stat, position=position,
+      ...)
 }
 
-GeomEfp <- proto(ggplot2:::GeomMap, {
-  objname <- 'efp'
-  draw_groups <- function(., data, scales, coordinates, collection,
-                          labels) {
-    coords <- coord_munch(coordinates, collection, scales)
-    ggefp:::efp_grob(coords, data, labels)
-  }
-  required_aes <- c('tissue', 'fill')
-})
+GeomEfp <- ggproto('GeomEfp', ggplot2:::Geom,
+                   required_aes=c('tissue', 'fill'),
+                   objname='efp',
+                   extra_params=c("collection", "labels", "na.rm"),
+                   draw_panel=function(data, panel_scales, coord, collection,
+                                       labels) {
+                     coords <- coord_munch(coord, collection, panel_scales)
+                     ggefp:::efp_grob(coords, data, labels)
+                   })
 
 efp_grob_single <- function(cl, data, labels) {
   

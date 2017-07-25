@@ -11,7 +11,6 @@ Depends:
     methods,
     ggplot2
 Imports:
-    proto,
     grid,
     grImport,
     plyr
