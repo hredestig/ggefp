@@ -1,0 +1,7 @@
+version: "2.1"
+services:
+  sh:
+    build: .
+    command: bash render-ps.sh
+    volumes:
+      - ./:/io
