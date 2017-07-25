@@ -1,3 +1,9 @@
+#' BaseExhibit
+#'
+#' exhibits should inherit from this
+#' @format a ggproto class
+#' @docType data
+#' @export
 BaseExhibit <-
   ggproto(img=NULL, desc=NULL, key=data.frame(),
           what='ggefp-exhibit',

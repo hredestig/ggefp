@@ -9,3 +9,4 @@ pkg.Rcheck/*
 img/*.xml
 img/*.ps
 /etc/*.ps
+ggefp.Rcheck

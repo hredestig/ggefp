@@ -1,6 +1,6 @@
 #' @import plyr
-#' @import proto
 #' @import grid
+#' @importFrom methods slotNames
 NULL
 
 #' Filled paths from locally stored vector graphics
@@ -75,7 +75,7 @@ GeomEfp <- ggproto('GeomEfp', ggplot2:::Geom,
                    draw_panel=function(data, panel_scales, coord, collection,
                                        labels) {
                      coords <- coord_munch(coord, collection, panel_scales)
-                     ggefp:::efp_grob(coords, data, labels)
+                     efp_grob(coords, data, labels)
                    })
 
 efp_grob_single <- function(cl, data, labels) {
@@ -95,8 +95,7 @@ efp_grob_single <- function(cl, data, labels) {
 
 efp_grob <- function(collection, data, labels) {
   
-  grob_list <- dlply(collection, 'exhibit',
-                     ggefp:::efp_grob_single, data, labels)
+  grob_list <- dlply(collection, 'exhibit', efp_grob_single, data, labels)
   do.call('gList', grob_list)
 }
 

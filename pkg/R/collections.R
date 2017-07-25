@@ -1,10 +1,13 @@
 #' Arabidopsis developmental map
 #'
+#' Adopted from Winter et al.
 #' @aliases ath_developmental_map
 #' @format a data frame
-#' @docType dataset
+#' @docType data
 #' @references Provided by Nicholas Provart
 #' \url{http://bar.utoronto.ca/efp/cgi-bin/efpWeb.cgi}
+#'
+#' Winter et al. PLoS ONE 2(8): e718. doi:10.1371/journal.pone.0000718
 #' @export
 ath_developmental_map <-
   data.frame(exhibit=c('ath_mature_plant', 'ath_young_plant',

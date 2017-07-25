@@ -4,9 +4,10 @@ Title: A way to plot tissue maps using ggplot2
 Version: 0.0.1
 Author: Henning Redestig <henning.red@gmail.com>
 Maintainer: Henning Redestig <henning.red@gmail.com>
-Description: Defines a ggplot2 geom that maps values to tissues in provided
-    plant line drawings. Arabidopsis line drawing adapted from Winter et al.
-    (2007) PLoS ONE 2(8): e718. doi:10.1371/journal.pone.0000718
+Description: This package defines a ggplot2 geom that maps values to
+    tissues in provided plant line drawings. The resulting plots
+    resemble GUS-stainings for gene expression. The Arabidopsis line
+    drawings are adapted from Winter et al. (2007).
 Depends:
     methods,
     ggplot2
@@ -24,3 +25,4 @@ Collate:
     'utils.R'
     'zzz.R'
     'collections.R'
+RoxygenNote: 6.0.1
